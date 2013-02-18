@@ -16,7 +16,8 @@ module outer_wall() {
 // Outer collar
 difference() {
 	outer_wall();
-	cylinder(h=height, r=inner_r);
+	translate([0, 0, 2])
+		cylinder(h=height-2, r=inner_r);
 }
 
 // Helix based on code by Andrew Plumb, 2010
