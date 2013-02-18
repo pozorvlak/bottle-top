@@ -1,18 +1,21 @@
-// This is a screw-on collar to attach two UK milk jugs neck-to-neck.
-// See http://pozorvlak.livejournal.com/150072.html for why you might want to
-// do this.
+// This is a replacement bottle top for Dave's Insanity Sauce.
+// I'd have expected a company producing such an algogenic product to use more
+// reliable bottle-sealants, but apparently not...
 // Designed by Miles Gould, February 2013
 
 // Measurements, in millimetres.
-height = 22;   // Height of the collar.
-               // Should be a bit more than the height of two caps.
-inner_r = 19;  // inner radius of the cylinder
-outer_r = 21;  // outer radius of the cylinder
-pitch = 4.1;   // distance between the crest of one thread and the next.
+height = 16;   // outer height of the cap.
+inner_r = 10.5;  // inner radius of the cylinder
+outer_r = 12.5;  // outer radius of the cylinder
+pitch = 3;   // distance between the crest of one thread and the next.
+
+module outer_wall() {
+        cylinder(h=height, r=outer_r);
+}
 
 // Outer collar
 difference() {
-	cylinder(h=height, r=outer_r);
+	outer_wall();
 	cylinder(h=height, r=inner_r);
 }
 
@@ -23,7 +26,7 @@ module helix_footprint(helix_r=50
 	,arm_r=10
 	) {
 	translate([ -helix_r,0])
-      circle(arm_r,0);
+      circle(arm_r);
 }
 
 module helix_coil(helix_r=50
@@ -37,8 +40,15 @@ module helix_coil(helix_r=50
 	);
 }
 
-helix_coil(helix_h=height
-	,arm_r=2
-	,helix_r=inner_r
-	,helix_twist=-(height / pitch * 360)
-	);
+module thread() {
+        helix_coil(helix_h=height
+                ,arm_r=2
+                ,helix_r=inner_r
+                ,helix_twist=-(height / pitch * 360)
+                );
+}
+
+intersection() {
+        thread();
+        outer_wall();
+}
