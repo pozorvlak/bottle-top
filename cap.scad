@@ -4,10 +4,12 @@
 // Designed by Miles Gould, February 2013
 
 // Measurements, in millimetres.
-height = 16;   // outer height of the cap.
-inner_r = 10.5;  // inner radius of the cylinder
-outer_r = 12.5;  // outer radius of the cylinder
+height = 16;   // outer height of the cap
+wall_thickness = 2; // thickness of the cap sides and top
+inner_r = 11.5;  // inner radius of the cylinder
+outer_r = inner_r + wall_thickness;  // outer radius of the cylinder
 pitch = 3;   // distance between the crest of one thread and the next.
+thread_r = 2; // radius of the thread
 
 module outer_wall() {
         cylinder(h=height, r=outer_r);
@@ -16,8 +18,8 @@ module outer_wall() {
 // Outer collar
 difference() {
 	outer_wall();
-	translate([0, 0, 2])
-		cylinder(h=height-2, r=inner_r);
+	translate([0, 0, wall_thickness])
+		cylinder(h=height-wall_thickness, r=inner_r);
 }
 
 // Helix based on code by Andrew Plumb, 2010
@@ -43,7 +45,7 @@ module helix_coil(helix_r=50
 
 module thread() {
         helix_coil(helix_h=height
-                ,arm_r=2
+                ,arm_r=thread_r
                 ,helix_r=inner_r
                 ,helix_twist=-(height / pitch * 360)
                 );
