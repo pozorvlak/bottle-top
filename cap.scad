@@ -22,6 +22,12 @@ difference() {
 		cylinder(h=height-wall_thickness, r=inner_r);
 }
 
+// Inner half of the thread.
+// We don't want thread protruding outside the cap.
+intersection() {
+        thread();
+        outer_wall();
+}
 // Helix based on code by Andrew Plumb, 2010
 // See http://rocklinux.net/pipermail/openscad/2010-January/000098.html
 
@@ -51,7 +57,3 @@ module thread() {
                 );
 }
 
-intersection() {
-        thread();
-        outer_wall();
-}
